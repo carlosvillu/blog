@@ -1,12 +1,5 @@
 # transformar
 
-// colorize : String -> Circle -> Circle
-let colorize = (color, circle) => {
-  return Object.assign({}, circle, {
-    color: color
-  });
-};
-
 ```js
 // type Circle = { radius: Number, color: String }
 let circle = {
@@ -132,7 +125,7 @@ let squares = toAnotherShapes(circles, "square");
 
 ```
 
-Vamos mejorando, hemos encapsulado la iteración del array en una sola función pero si queremos utilizar la función `greenify` 
+Vamos mejorando, hemos encapsulado la iteración del array en una sola función pero si queremos utilizar la función `greenify` tenemos que repetir el bucle y aplicar la función para cada círculo. Tiene que haber una abstracción mejor.
 
 ```js
 let greenify = (circle) => {
@@ -141,6 +134,23 @@ let greenify = (circle) => {
   });
 };
 ```
+
+```js
+let transformEach = (transform, things) => {
+  let otherThings = [];
+  
+  for (let i = 0; i < things.length; i++) {
+    let thing = things[i];
+    let anotherThing = tranform(thing);
+    otherThings.push(anotherThing);
+  }
+
+  return otherThings;
+}
+
+var squares = transformEach(toSquare, circles);
+var greenCircles = transformEach(greenify, circles);
+``
 
 
 
