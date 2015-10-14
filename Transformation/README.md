@@ -4,14 +4,10 @@ Como sabemos las funciones son cajas negras que reciben un input, aplican una tr
 
 Para ejemplificar crearemos un objeto círculo y función que transforma círculos en cuadrados.
 
-<pre>
-● -> ■
-</pre>
-
 Creamos el input:
 
 ```js
-// type Circle = { radius: Number, color: String }
+// ● = { radius: Number, color: String }
 let circle = {
   radius: 5,
   color: "red"
@@ -21,7 +17,7 @@ let circle = {
 Una función que lo transforma.
 
 ```js
-// toSquare : Circle -> Square
+// toSquare : ● -> ■
 let toSquare = (circle) => {
   return {
     side: circle.radius * 2,
@@ -66,7 +62,7 @@ Necesitamos una función que pueda entrar en el contenedor, transformar cada val
 La llamaremos *toSquares* y recibirá un array de círculos y retornará un array de cuadrados.
 
 ```js
-// toSquares : [Circle] -> [Square]
+// toSquares : [●] -> [■]
 let toSquares = (circles) => {
   // creamos un array vacio para acumulurará los cuadrados
   let squares = [];
@@ -99,9 +95,7 @@ Pero ahora nos gustaría también transformar un círculo en un triangulo.
 Tenemos la función que lo hace para un solo triangulo.
 
 ```js
-// toSquare : Circle -> Triangle
-
-▲
+// toTriangle : ● -> ▲ 
 let toTriangle = (circle) => {
   let side = 3 * circle.radius / Math.sqrt(3);
   return {
@@ -115,6 +109,7 @@ Pero no la funcion que lo haga para una lista de triangulos.
 Bueno, no pasa nada, si lo hemos podido hacer para cuadrados no será dificil de hacerla para triangulos.
 
 ```js
+// toTriangles : [●] -> [▲]
 let toTriangles = (circles) => {
   let triangles = [];
   
@@ -132,6 +127,7 @@ Hmmm... esta función es sospechosamente parecida a la que transformaba círculo
 Parece que lo que cambia es el tipo de forma
 
 ```js
+// toAnotherShape : ● -> String -> ▲ | ■ | ●
 let toAnotherShape = (circle, shapeType) => {
   if (shape === "circle") {
     return toTriangle(circle);
@@ -142,6 +138,7 @@ let toAnotherShape = (circle, shapeType) => {
   }
 };
 
+// toAnotherShapes : [●] -> String -> [▲] | [■] | [●]
 let toAnotherShapes = (circles, shapeType) => {
   let otherShapes = [];
   
@@ -165,6 +162,7 @@ Tenemos que repetir el bucle y aplicar la función para cada círculo. Tiene que
 Dada una función que reciba un círculo y devuelva un nuevo círculo de color verde:
 
 ```js
+// greenify : ● -> ●
 let greenify = (circle) => {
   return Object.assign({}, circle, {
     color: "green"
