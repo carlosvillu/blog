@@ -26,17 +26,13 @@ let toSquare = (circle) => {
 };
 ```
 
-Y una aplicamos la transformación para obtener el output.
+Y aplicamos la transformación para obtener el output.
 
 ```js
 let square = toSquare(circle);
 ```
 
-
-La funcion `toSquare` recibe un círculo y lo transforma en un cuadrado. 
-
-
-
+Hasta aquí ningun problema.
 Pero que pasa cuando tenemos un lista de circulos y lo queremos transformar en una lista de cuadrados?
 
 ```js
@@ -56,30 +52,31 @@ let circles = [
 ];
 ```
 
-Nuestra función no funciona con arrays...
+Ahora nuestros circulos están dentro de un contenedor. Y no nuestra función no funciona con arrays...
 
 ```js
 let squares = toSquare(circles); // { color: undefined, side: NaN }
-
 ```
 
-Pero podemos implementar una que funcione, la llamaremos toSquares y recibirá un array de circulos y retornará un array de cuadrados
+Necesitamos una función que pueda entrar en el contenedor, transformar cada valor y volver a poner todo en un contenedor.
+La llamaremos *toSquares* y recibirá un array de círculos y retornará un array de cuadrados.
 
 ```js
 // toSquares : [Circle] -> [Square]
 let toSquares = (circles) => {
-  // creamos un array vacio que contendrá todos los cuadrados
+  // creamos un array vacio para acumulurará los cuadrados
   let squares = [];
   
   // iteramos el array de circulos
   for (let i = 0; i < circles.length; i++) {
-    // obtenemos el circulo de la iteracción actual
+    // obtenemos el circulo de la iteración actual
     let circle = circles[i];
 
-    // transformamos el circulo en un cuadrado
+    // transformamos el círculo en un cuadrado
+    // con la función que habíamos creado
     let square = toSquare(circle);
 
-    // y lo añadimos al array inicial
+    // y lo añadimos al array acumulador
     squares.push(square);
   }
   
@@ -87,6 +84,15 @@ let toSquares = (circles) => {
   return squares;
 };
 ```
+
+Ya lo tenemos.
+
+```js
+let squares = toSquares(circles);
+```
+
+Pero ahora nos gustaría también transformar un círculo en un triangulo.
+Tenemos la función que lo hace para un solo triangulo.
 
 ```js
 // toSquare : Circle -> Triangle
@@ -98,6 +104,9 @@ let toTriangle = (circle) => {
   };
 };
 ```
+
+Pero no la funcion que lo haga para una lista de triangulos.
+Bueno, no pasa nada, si lo hemos podido hacer para cuadrados no será dificil de hacerla para triangulos.
 
 ```js
 let toTriangles = (circles) => {
@@ -114,11 +123,12 @@ let toTriangles = (circles) => {
 ```
 
 Hmmm... esta función es sospechosamente parecida a la que transformaba círculos en cuadrados.
+Parece que lo que cambia es el tipo de forma
 
 ```js
 let toAnotherShape = (circle, shapeType) => {
-  if (shapeType === "circle") {
-    return toCircle(circle);
+  if (shape === "circle") {
+    return toTriangle(circle);
   } else if (shapeType === "square") {
     return toSquare(circle);
   } else {
@@ -131,7 +141,7 @@ let toAnotherShapes = (circles, shapeType) => {
   
   for (let i = 0; i < circles.length; i++) {
     let circle = circles[i];
-    let triangle = toAnotherShape(circle, shapeType);
+    let otherShape = toAnotherShape(circle, shapeType);
     otherShapes.push(square);
   }
 
@@ -142,9 +152,11 @@ let squares = toAnotherShapes(circles, "square");
 
 ```
 
-Vamos mejorando, hemos encapsulado la iteración del array en una sola función pero si queremos utilizar la función `greenify` que pinte los círculos de verde tenemos que repetir el bucle y aplicar la función para cada círculo. Tiene que haber una abstracción mejor.
+Vamos mejorando, hemos encapsulado la iteración del array en una sola función.
+Pero pasar un shapeType me parece un *hack*. Además *toAnotherShape* funciona para cambios de tipo, pero y si tenemos una función que cambie el color?
+Tenemos que repetir el bucle y aplicar la función para cada círculo. Tiene que haber una abstracción mejor.
 
-Creamos una función que transforme cualquier círculo en un círculo verde.
+Dada una función que reciba un círculo y devuelva un nuevo círculo de color verde:
 
 ```js
 let greenify = (circle) => {
@@ -153,6 +165,9 @@ let greenify = (circle) => {
   });
 };
 ```
+
+La funcion toAnotherShapes ya no nos vale, no sabemos que transformación le vamos a aplicar pero nos gustaría mantener la lógica de iteración.
+Si a partida no sabemos que transformación vamos a aplicar a cada elemento, hay que pasar la función adentro. Llamaremos a esa función **transform** y *toAnotherShapes* le llamaremos **transformEach**.
 
 ```js
 let transformEach = (transform, things) => {
@@ -172,10 +187,12 @@ let greenCircles = transformEach(greenify, circles);
 ```
 
 La función que acabamos de crear ya existe pero con otro nombre.
-Se llama `map` y está implmentada como un metodo en el objecto Array de javascript.
+Se llama **map** y está implementada como un método del objecto Array de javascript desde la versión ES5.
 
 ```js
 let squares = circles.map(toSquare);
+let triangles = circles.map(toTriangle);
+let greenCircles = circles.map(greenify);
 ```
 
 
