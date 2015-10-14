@@ -1,12 +1,22 @@
 # transformar
 
+Como sabemos las funciones son cajas negras que reciben un input, aplican una transformación y retornan un output.
+
+Para ejemplificar crearemos un objeto círculo y función que transforma círculos en cuadrados.
+
+Creamos el input:
+
 ```js
 // type Circle = { radius: Number, color: String }
 let circle = {
   radius: 5,
   color: "red"
 };
+```
 
+Una función que lo transforma.
+
+```js
 // toSquare : Circle -> Square
 let toSquare = (circle) => {
   return {
@@ -14,27 +24,23 @@ let toSquare = (circle) => {
     color: circle.color
   };
 };
-
-let toTriangle = (circle) => {
-  let side = 3 * circle.radius / Math.sqrt(3);
-  return {
-    base: side
-    height: Math.sqrt((side * side) + ((side / 2) * (side / 2)))
-  };
-};
 ```
 
-Tenemos un círculo y lo queremos *transformar* en un cuadrado.
-La funcion `toSquare` recibe un círculo y lo transforma en un cuadrado. 
+Y una aplicamos la transformación para obtener el output.
 
 ```js
-var square = toSquare(circle);
+let square = toSquare(circle);
 ```
+
+
+La funcion `toSquare` recibe un círculo y lo transforma en un cuadrado. 
+
+
 
 Pero que pasa cuando tenemos un lista de circulos y lo queremos transformar en una lista de cuadrados?
 
 ```js
-var circles = [
+let circles = [
   {
     radius: 5,
     color: "red"
@@ -53,7 +59,7 @@ var circles = [
 Nuestra función no funciona con arrays...
 
 ```js
-var squares = toSquare(circles); // { color: undefined, side: NaN }
+let squares = toSquare(circles); // { color: undefined, side: NaN }
 
 ```
 
@@ -79,6 +85,17 @@ let toSquares = (circles) => {
   
   // por fin retornamos todos los cuadrados
   return squares;
+};
+```
+
+```js
+// toSquare : Circle -> Triangle
+let toTriangle = (circle) => {
+  let side = 3 * circle.radius / Math.sqrt(3);
+  return {
+    base: side
+    height: Math.sqrt((side * side) + ((side / 2) * (side / 2)))
+  };
 };
 ```
 
@@ -125,7 +142,9 @@ let squares = toAnotherShapes(circles, "square");
 
 ```
 
-Vamos mejorando, hemos encapsulado la iteración del array en una sola función pero si queremos utilizar la función `greenify` tenemos que repetir el bucle y aplicar la función para cada círculo. Tiene que haber una abstracción mejor.
+Vamos mejorando, hemos encapsulado la iteración del array en una sola función pero si queremos utilizar la función `greenify` que pinte los círculos de verde tenemos que repetir el bucle y aplicar la función para cada círculo. Tiene que haber una abstracción mejor.
+
+Creamos una función que transforme cualquier círculo en un círculo verde.
 
 ```js
 let greenify = (circle) => {
@@ -141,35 +160,22 @@ let transformEach = (transform, things) => {
   
   for (let i = 0; i < things.length; i++) {
     let thing = things[i];
-    let anotherThing = tranform(thing);
+    let anotherThing = transform(thing);
     otherThings.push(anotherThing);
   }
 
   return otherThings;
 }
 
-var squares = transformEach(toSquare, circles);
-var greenCircles = transformEach(greenify, circles);
-``
+let squares = transformEach(toSquare, circles);
+let greenCircles = transformEach(greenify, circles);
+```
 
-
-
+La función que acabamos de crear ya existe pero con otro nombre.
+Se llama `map` y está implmentada como un metodo en el objecto Array de javascript.
 
 ```js
-let circles = [
-  {
-    radius: 5,
-    color: "red"
-  },
-  {
-    radius: 5,
-    color: "green"
-  },
-  {
-    radius: 5,
-    color: "blue"
-  }
-];
-
 let squares = circles.map(toSquare);
 ```
+
+
