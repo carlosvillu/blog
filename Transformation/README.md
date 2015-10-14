@@ -4,6 +4,10 @@ Como sabemos las funciones son cajas negras que reciben un input, aplican una tr
 
 Para ejemplificar crearemos un objeto círculo y función que transforma círculos en cuadrados.
 
+<pre>
+● -> ■
+</pre>
+
 Creamos el input:
 
 ```js
@@ -96,6 +100,8 @@ Tenemos la función que lo hace para un solo triangulo.
 
 ```js
 // toSquare : Circle -> Triangle
+
+▲
 let toTriangle = (circle) => {
   let side = 3 * circle.radius / Math.sqrt(3);
   return {
