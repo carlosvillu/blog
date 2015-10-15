@@ -1,13 +1,16 @@
-# transformar
+# Map es el nuevo for
 
-Como sabemos las funciones son cajas negras que reciben un input, aplican una transformación y retornan un output.
+Como sabemos las funciones son cajas negras que reciben un input, aplican una transformación y retornan un output. Pero que pasa cuando el input es una colección y queremos aplicar una función a cada uno de los elementos?
+
+Para ilustrar la situación nos plantearemos el siguiente problema.
+Transformar una lista de círculos en una lista de cuadrados.
 
 Para ejemplificar crearemos un objeto círculo y función que transforma círculos en cuadrados.
 
 Creamos el input:
 
 ```js
-// ● = { radius: Number, color: String }
+//  ● = { radius: Number, color: String }
 let circle = {
   radius: 5,
   color: "red"
@@ -17,7 +20,7 @@ let circle = {
 Una función que lo transforma.
 
 ```js
-// toSquare : ● -> ■
+//  toSquare : ● -> ■
 let toSquare = (circle) => {
   return {
     side: circle.radius * 2,
@@ -52,17 +55,17 @@ let circles = [
 ];
 ```
 
-Ahora nuestros circulos están dentro de un contenedor. Y no nuestra función no funciona con arrays...
+Ahora nuestros circulos están dentro de un contenedor. Y nuestra función ya no sirve...
 
 ```js
 let squares = toSquare(circles); // { color: undefined, side: NaN }
 ```
 
-Necesitamos una función que pueda entrar en el contenedor, transformar cada valor y volver a poner todo en un contenedor.
+Necesitamos una función que pueda entrar en el contenedor, transformar cada valor aplicando la función que habíamos creado y volver a poner todo en un contenedor.
 La llamaremos *toSquares* y recibirá un array de círculos y retornará un array de cuadrados.
 
 ```js
-// toSquares : [●] -> [■]
+//  toSquares : [●] -> [■]
 let toSquares = (circles) => {
   // creamos un array vacio para acumulurará los cuadrados
   let squares = [];
@@ -95,7 +98,7 @@ Pero ahora nos gustaría también transformar un círculo en un triangulo.
 Tenemos la función que lo hace para un solo triangulo.
 
 ```js
-// toTriangle : ● -> ▲ 
+//  toTriangle : ● -> ▲ 
 let toTriangle = (circle) => {
   let side = 3 * circle.radius / Math.sqrt(3);
   return {
@@ -109,7 +112,7 @@ Pero no la funcion que lo haga para una lista de triangulos.
 Bueno, no pasa nada, si lo hemos podido hacer para cuadrados no será dificil de hacerla para triangulos.
 
 ```js
-// toTriangles : [●] -> [▲]
+//  toTriangles : [●] -> [▲]
 let toTriangles = (circles) => {
   let triangles = [];
   
@@ -127,7 +130,7 @@ Hmmm... esta función es sospechosamente parecida a la que transformaba círculo
 Parece que lo que cambia es el tipo de forma
 
 ```js
-// toAnotherShape : ● -> String -> ▲ | ■ | ●
+//  toAnotherShape : ● -> String -> ▲ | ■ | ●
 let toAnotherShape = (circle, shapeType) => {
   if (shape === "circle") {
     return toTriangle(circle);
@@ -138,7 +141,7 @@ let toAnotherShape = (circle, shapeType) => {
   }
 };
 
-// toAnotherShapes : [●] -> String -> [▲] | [■] | [●]
+//  toAnotherShapes : [●] -> String -> [▲] | [■] | [●]
 let toAnotherShapes = (circles, shapeType) => {
   let otherShapes = [];
   
@@ -162,7 +165,7 @@ Tenemos que repetir el bucle y aplicar la función para cada círculo. Tiene que
 Dada una función que reciba un círculo y devuelva un nuevo círculo de color verde:
 
 ```js
-// greenify : ● -> ●
+//  greenify : ● -> ●
 let greenify = (circle) => {
   return Object.assign({}, circle, {
     color: "green"
@@ -190,13 +193,16 @@ let squares = transformEach(toSquare, circles);
 let greenCircles = transformEach(greenify, circles);
 ```
 
-La función que acabamos de crear ya existe pero con otro nombre.
+La función que acabamos de crear ya existe, pero con otro nombre.
 Se llama **map** y está implementada como un método del objecto Array de javascript desde la versión ES5.
+
+Entonces volvamos al problema inicial.
+"Transformar una lista de circulos en una lista de cuadrados."
+
+Con la función **map** lo hacemos en una línea, y estamos declarando lo que queremos hacer, no sabemos como lo está haciendo por dentro, y nos vale para cualquier array e cualquier función que opere sobre elementos de ese array.
 
 ```js
 let squares = circles.map(toSquare);
-let triangles = circles.map(toTriangle);
-let greenCircles = circles.map(greenify);
 ```
 
 
