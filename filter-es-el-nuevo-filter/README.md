@@ -30,7 +30,7 @@ let MagicMachine = (() => {
     let isRandomPeanutBad = () => Math.round(Math.random() * 10) === 1;
 
     return {
-      color: generateRandomMNmColor(),
+      color: generateRandomMNMColor(),
       hasBadPeanut: isRandomPeanutBad()
     };
   };
@@ -146,7 +146,7 @@ let map = (transform, things) => {
   }
 
   return otherThings;
-}
+};
 
 var mNms = map(shouldPassTheFilter, [
   {color: "yellow", hasBadPeanut: false},
@@ -169,12 +169,12 @@ let filter = (predicate, things) => {
     // primero verificamos que pasa unos determinados criterios.
     // Si los pasa, la añadimos al contenedor
     if (predicate(thing)) {
-      otherThings.push(anotherThing);
+      otherThings.push(thing);
     }
   }
 
   return otherThings;
-}
+};
 ```
 
 Estamos listos para crear nuestra máquina de filtrar.
